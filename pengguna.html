@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manajemen Pengguna | Aplikasi MyToko</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            lexend: ['Lexend Deca', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .lexend-deca-body {
+      font-family: "Lexend Deca", sans-serif;
+    }
+    .sidebar-mobile-open {
+        overflow: hidden;
+    }
+    .sidebar-mobile-open #sidebar {
+        transform: translateX(0);
+    }
+    .sidebar-mobile-open #sidebar-overlay {
+        display: block;
+    }
+    /* Menambahkan transisi untuk pop-up notifikasi/pesan */
+    .popup {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    .popup-hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+    /* Menambahkan transisi untuk modal */
+    .modal-container {
+        transition: opacity 0.3s ease-in-out;
+    }
+    .modal-content {
+        transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="lexend-deca-body bg-[#F5F7FA] dark:bg-gray-900 transition-colors duration-300">
+
+<div class="relative min-h-screen lg:flex">
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+
+  <aside id="sidebar" class="w-64 bg-white dark:bg-gray-800 shadow-md flex-shrink-0 fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out z-40">
+    <div class="flex flex-col h-full">
+        <div class="p-6">
+          <div class="flex items-center justify-center mb-10">
+            <svg class="w-8 h-8 mr-2" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" fill="#3361FF"/><rect x="14" y="4" width="6" height="6" fill="#FF6633"/></svg>
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">MyToko</h1>
+          </div>
+          <nav>
+            <ul>
+              <li>
+                <a href="utama.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                  <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li class="mt-2">
+                <a href="kelola-barang.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+                  <span>Kelola Barang</span>
+                </a>
+              </li>
+              <li class="mt-2">
+                <a href="#" class="flex items-center px-4 py-3 text-blue-600 dark:text-white bg-blue-50 dark:bg-gray-700 rounded-lg font-semibold">
+                  <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                  <span>Pengguna</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="p-6 mt-auto">
+           <a href="index.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+             <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+           <span>Logout</span>
+         </a>
+        </div>
+    </div>
+  </aside>
+
+  <main class="flex-1">
+    <div class="p-4 md:p-8">
+      <header class="flex justify-between items-center mb-8">
+        <div class="flex items-center">
+            <button id="hamburger-button" class="lg:hidden mr-4 text-gray-600 dark:text-gray-300"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Manajemen Pengguna</h1>
+              <p class="text-gray-500 dark:text-gray-300 text-sm mt-1">Kelola akun, peran, dan data pengguna.</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 flex-shrink-0">
+          <div class="relative">
+            <button id="messages-button" class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><span class="sr-only">Buka Pesan</span><svg class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span></button>
+          </div>
+          <div class="relative">
+            <button id="notifications-button" class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><span class="sr-only">Buka Notifikasi</span><svg class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg><span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span></button>
+          </div>
+          <button id="theme-toggle" type="button" class="relative flex items-center w-20 h-10 bg-gray-300 dark:bg-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"><span class="sr-only">Toggle dark mode</span><span class="absolute left-1 inline-flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300 dark:translate-x-10"><svg class="h-5 w-5 text-yellow-500 transition-all duration-300 transform dark:-rotate-90 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><svg class="absolute h-5 w-5 text-slate-300 transition-all duration-300 transform rotate-90 opacity-0 dark:rotate-0 dark:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg></span></button>
+          <div class="relative"><img src="profil.jpg" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer"></div>
+        </div>
+      </header>
+
+      <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-2xl shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div class="flex-grow flex flex-col md:flex-row items-center gap-4 w-full">
+              <div class="relative w-full md:w-auto md:flex-grow">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg></div>
+                <input type="text" id="searchInput" placeholder="Cari pengguna (nama atau email)..." class="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none">
+              </div>
+              <div class="relative w-full md:w-auto">
+                <select class="appearance-none w-full md:w-auto pl-4 pr-10 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none"><option>Filter Role</option><option>Admin</option><option>User</option></select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+              </div>
+            </div>
+            <button id="addUserButton" class="w-full md:w-auto py-2 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              <span>Tambah Pengguna</span>
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">Pengguna</th>
+                <th scope="col" class="px-6 py-3">Role</th>
+                <th scope="col" class="px-6 py-3">No. Telepon</th>
+                <th scope="col" class="px-6 py-3">Tanggal Bergabung</th>
+                <th scope="col" class="px-6 py-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="user-table-body" class="divide-y divide-gray-200 dark:divide-gray-600">
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                    <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full object-cover" src="profil.jpg" alt="Jese image"><div><div class="flex items-center gap-2 text-base font-semibold"><span>Mustofa Aldin</span><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944a11.954 11.954 0 007.834 3.055a1.962 1.962 0 012.18 2.18c.258 3.456-1.14 6.994-4.12 9.42a1.962 1.962 0 01-3.764 0c-2.98-2.426-4.378-5.964-4.12-9.42a1.962 1.962 0 012.18-2.18z" clip-rule="evenodd"></path></svg></div><div class="font-normal text-gray-500">mustofaaldin@gmail.com</div></div></div>
+                </td>
+                <td class="px-6 py-4">Admin</td>
+                <td class="px-6 py-4">0812-3456-7890</td>
+                <td class="px-6 py-4">12 Mei 2024</td>
+                <td class="px-6 py-4 text-center whitespace-nowrap"><a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4 edit-btn">Edit</a><a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline delete-btn">Hapus</a></td>
+              </tr>
+               <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                    <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=b" alt="Bonnie image"><div><div class="text-base font-semibold">Bonnie Green</div><div class="font-normal text-gray-500">bonnie@example.com</div></div></div>
+                </td>
+                <td class="px-6 py-4">User</td>
+                <td class="px-6 py-4">0821-8765-4321</td>
+                <td class="px-6 py-4">10 April 2024</td>
+                <td class="px-6 py-4 text-center whitespace-nowrap"><a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4 edit-btn">Edit</a><a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline delete-btn">Hapus</a></td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                    <div class="flex items-center space-x-3"><img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=c" alt="Thomas image"><div><div class="text-base font-semibold">Thomas Lean</div><div class="font-normal text-gray-500">thomas@example.com</div></div></div>
+                </td>
+                <td class="px-6 py-4">User</td>
+                <td class="px-6 py-4">0857-1122-3344</td>
+                <td class="px-6 py-4">02 Maret 2024</td>
+                <td class="px-6 py-4 text-center whitespace-nowrap"><a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4 edit-btn">Edit</a><a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline delete-btn">Hapus</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="messages-popup" class="popup popup-hidden fixed top-16 right-8 md:right-48 mt-2 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl z-50 border dark:border-gray-700">
+    <div class="p-4 border-b dark:border-gray-700">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Pesan Terbaru</h3>
+    </div>
+    <div id="message-list" class="divide-y dark:divide-gray-700 max-h-96 overflow-y-auto">
+        <a href="#" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <div class="flex items-start space-x-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=siti" alt="Siti Sarah">
+              <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">Siti Sarah</p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">siti.sarah@example.com</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 truncate">Halo, saya butuh bantuan untuk laporan pajak PPh 21.</p>
+              </div>
+          </div>
+        </a>
+        <a href="#" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <div class="flex items-start space-x-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=budi" alt="Budi Santoso">
+              <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">Budi Santoso</p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">0812-1111-2222</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 truncate">Terima kasih, dokumen sudah saya terima dengan baik.</p>
+              </div>
+          </div>
+        </a>
+        <a href="#" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <div class="flex items-start space-x-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=andrian" alt="Andrian Wijaya">
+              <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">Andrian Wijaya</p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">andrian.w@example.com</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 truncate">Jadwal konsultasi pajaknya bisa diundur ke hari Jumat?</p>
+              </div>
+          </div>
+        </a>
+    </div>
+    <a href="#" class="block py-2 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:text-blue-500 dark:hover:bg-gray-700 rounded-b-xl">
+        Lihat Semua Pesan
+    </a>
+</div>
+
+<div id="notifications-popup" class="popup popup-hidden fixed top-16 right-8 md:right-36 mt-2 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl z-50 border dark:border-gray-700">
+    <div class="p-4 border-b dark:border-gray-700">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Notifikasi</h3>
+    </div>
+    <div id="notification-list" class="divide-y dark:divide-gray-700 max-h-96 overflow-y-auto">
+        <a href="#" class="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <div class="flex-shrink-0 mr-3">
+                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-green-100 dark:bg-green-900">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-gray-600 dark:text-gray-300 text-sm mb-1.5">Laporan PPN bulan Mei telah berhasil dibuat.</div>
+                <div class="text-xs text-blue-600 dark:text-blue-500">5 menit yang lalu</div>
+            </div>
+        </a>
+        <a href="#" class="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <div class="flex-shrink-0 mr-3">
+                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                    <svg class="w-5 h-5 text-yellow-500 dark:text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.636-1.214 2.273-1.214 2.91 0l5.396 10.27c.474.902-.19 1.98-1.225 2.13l-10.27 1.536c-.956.143-1.84-.68-1.696-1.636l1.53-9.18c.09-.54.34-1.02.655-1.42L8.257 3.099zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-gray-600 dark:text-gray-300 text-sm mb-1.5">Perhatian: Ada 2 faktur pajak yang akan kedaluwarsa.</div>
+                <div class="text-xs text-blue-600 dark:text-blue-500">30 menit yang lalu</div>
+            </div>
+        </a>
+        <a href="#" class="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <div class="flex-shrink-0 mr-3">
+                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-gray-600 dark:text-gray-300 text-sm mb-1.5">Update sistem akan dijadwalkan pada hari Sabtu pukul 22:00.</div>
+                <div class="text-xs text-blue-600 dark:text-blue-500">2 jam yang lalu</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div id="addUserModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none">
+  <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-lg m-4 transform scale-95">
+    <div class="flex justify-between items-center p-6 border-b dark:border-gray-600">
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Tambah Pengguna Baru</h3>
+      <button type="button" class="close-modal text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg p-1.5 ml-auto inline-flex items-center">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    <form class="p-6">
+      <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div><label for="full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Lengkap</label><input type="text" id="full_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="John Doe" required></div>
+        <div><label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. Telepon</label><input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="0812-3456-7890" required></div>
+        <div><label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat Email</label><input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="john.doe@example.com" required></div>
+        <div class="relative"><label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label><select id="role" class="appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"><option selected>Pilih Role</option><option value="admin">Admin</option><option value="user">User</option></select><div class="absolute inset-y-0 right-0 top-6 flex items-center px-3 pointer-events-none"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div></div>
+      </div>
+      <div class="flex items-center justify-end space-x-4">
+        <button type="button" class="close-modal px-5 py-2.5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan Pengguna</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="editUserModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none">
+  <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-lg m-4 transform scale-95">
+    <div class="flex justify-between items-center p-6 border-b dark:border-gray-600">
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Pengguna</h3>
+      <button type="button" class="close-modal text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg p-1.5 ml-auto inline-flex items-center">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    <form class="p-6">
+      <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div><label for="edit_full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Lengkap</label><input type="text" id="edit_full_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required></div>
+        <div><label for="edit_phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. Telepon</label><input type="tel" id="edit_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required></div>
+        <div><label for="edit_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat Email</label><input type="email" id="edit_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required></div>
+        <div class="relative"><label for="edit_role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label><select id="edit_role" class="appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"><option value="admin">Admin</option><option value="user">User</option></select><div class="absolute inset-y-0 right-0 top-6 flex items-center px-3 pointer-events-none"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div></div>
+      </div>
+      <div class="flex items-center justify-end space-x-4">
+        <button type="button" class="close-modal px-5 py-2.5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="deleteUserModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-md m-4 transform scale-95">
+        <div class="p-6 text-center">
+            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus pengguna ini?</h3>
+            <button type="button" id="confirmDeleteButton" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                Ya, Hapus
+            </button>
+            <button type="button" class="close-modal text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                Batal
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- Dark Mode & Sidebar Logic ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const applyTheme = () => { if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } else { document.documentElement.classList.remove('dark'); }};
+    applyTheme();
+    themeToggleBtn.addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); });
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const body = document.body;
+    const toggleSidebar = () => { body.classList.toggle('sidebar-mobile-open'); };
+    hamburgerButton.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    // --- Modal Show/Hide Logic ---
+    const modals = {
+        add: document.getElementById('addUserModal'),
+        edit: document.getElementById('editUserModal'),
+        delete: document.getElementById('deleteUserModal')
+    };
+
+    const openModal = (modal) => {
+        if (!modal) return;
+        const modalContent = modal.querySelector('.modal-content');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        if(modalContent) modalContent.classList.remove('scale-95');
+    };
+
+    const closeModal = (modal) => {
+        if (!modal) return;
+        const modalContent = modal.querySelector('.modal-content');
+        modal.classList.add('opacity-0');
+        if(modalContent) modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('pointer-events-none');
+        }, 300); // Tunggu transisi selesai (duration-300)
+    };
+    
+    document.getElementById('addUserButton').addEventListener('click', () => openModal(modals.add));
+    
+    document.querySelectorAll('.close-modal').forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.modal-container');
+            if(modal) closeModal(modal);
+        });
+    });
+
+    // --- Pop-ups Logic (Pesan & Notifikasi) ---
+    const messagesButton = document.getElementById('messages-button');
+    const notificationsButton = document.getElementById('notifications-button');
+    const messagesPopup = document.getElementById('messages-popup');
+    const notificationsPopup = document.getElementById('notifications-popup');
+
+    const togglePopup = (popup) => {
+        const isHidden = popup.classList.contains('popup-hidden');
+        // Sembunyikan semua pop-up dulu
+        messagesPopup.classList.add('popup-hidden');
+        notificationsPopup.classList.add('popup-hidden');
+        // Tampilkan pop-up yang diklik jika tadinya tersembunyi
+        if (isHidden) {
+            popup.classList.remove('popup-hidden');
+        }
+    };
+    
+    messagesButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePopup(messagesPopup);
+    });
+
+    notificationsButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePopup(notificationsPopup);
+    });
+
+    // Sembunyikan pop-up jika klik di luar
+    window.addEventListener('click', (e) => {
+        if (!messagesPopup.contains(e.target) && !messagesButton.contains(e.target)) {
+            messagesPopup.classList.add('popup-hidden');
+        }
+        if (!notificationsPopup.contains(e.target) && !notificationsButton.contains(e.target)) {
+            notificationsPopup.classList.add('popup-hidden');
+        }
+    });
+
+    // --- Live Search Logic ---
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('user-table-body');
+    const tableRows = tableBody.getElementsByTagName('tr');
+
+    searchInput.addEventListener('keyup', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const nameCell = row.cells[0].textContent.toLowerCase();
+            const emailCell = row.cells[0].querySelector('.text-gray-500')?.textContent.toLowerCase() || '';
+            if (nameCell.includes(searchTerm) || emailCell.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+
+    // --- Edit and Delete Modal Logic ---
+    tableBody.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target.tagName.toLowerCase() !== 'a') return;
+        e.preventDefault();
+        
+        const row = target.closest('tr');
+        if (!row) return;
+
+        // Logic untuk Tombol Edit
+        if (target.classList.contains('edit-btn')) {
+            const name = row.querySelector('.text-base.font-semibold span, .text-base.font-semibold').textContent;
+            const email = row.querySelector('.font-normal.text-gray-500').textContent;
+            const role = row.cells[1].textContent.toLowerCase();
+            const phone = row.cells[2].textContent;
+
+            document.getElementById('edit_full_name').value = name;
+            document.getElementById('edit_email').value = email;
+            document.getElementById('edit_phone').value = phone;
+            document.getElementById('edit_role').value = role;
+
+            openModal(modals.edit);
+        }
+
+        // Logic untuk Tombol Hapus
+        if (target.classList.contains('delete-btn')) {
+            openModal(modals.delete);
+            
+            const confirmButton = document.getElementById('confirmDeleteButton');
+            // Clone and replace untuk menghapus event listener lama
+            const newConfirmButton = confirmButton.cloneNode(true);
+            confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
+
+            newConfirmButton.addEventListener('click', () => {
+                row.remove();
+                closeModal(modals.delete);
+            });
+        }
+    });
+
+  });
+</script>
+
+</body>
+</html>

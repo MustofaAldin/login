@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar | Aplikasi MyToko</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            lexend: ['Lexend Deca', 'sans-serif']
+          },
+          animation: {
+            'fade-in-scale': 'fadeInScale 0.5s ease-in-out',
+          },
+          keyframes: {
+            fadeInScale: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .lexend-deca-body {
+      font-family: "Lexend Deca", sans-serif;
+    }
+  </style>
+</head>
+<body class="lexend-deca-body bg-[#F5F7FA] dark:bg-gray-900 flex items-center justify-center min-h-screen transition-colors duration-300 relative p-4">
+
+  <div class="fixed top-4 right-4 z-50">
+    <button id="theme-toggle" type="button" class="relative flex items-center w-20 h-10 bg-gray-300 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 transition-colors duration-300">
+      <span class="sr-only">Toggle dark mode</span>
+      <span class="absolute left-1 inline-flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out dark:translate-x-10">
+          <svg class="h-5 w-5 text-yellow-500 transition-all duration-300 ease-in-out transform dark:-rotate-90 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="absolute h-5 w-5 text-slate-300 transition-all duration-300 ease-in-out transform rotate-90 opacity-0 dark:rotate-0 dark:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+      </span>
+    </button>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md animate-fade-in-scale">
+    <div class="flex items-center justify-center mb-4">
+      <svg class="w-8 h-8 mr-2" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="4" width="6" height="6" fill="#3361FF"/>
+        <rect x="14" y="4" width="6" height="6" fill="#FF6633"/>
+      </svg>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Aplikasi MyToko</h1>
+    </div>
+    <div class="text-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Buat Akun Baru</h2>
+      <p class="text-gray-500 dark:text-gray-300 text-sm">Silakan isi data dengan benar.</p>
+    </div>
+    
+    <form id="registerForm" method="POST" action="register.php" class="space-y-4">
+      <input type="text" name="fullname" placeholder="Nama Lengkap" required
+        class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+    
+      <input type="email" name="email" placeholder="Alamat Email" required
+        class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+    
+      <input type="tel" name="phone" placeholder="Nomor Telepon" required
+        class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+    
+      <input type="text" name="username" placeholder="Username (hanya huruf kecil)" required
+        class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+    
+      <div class="relative">
+        <input type="password" name="password" id="password" placeholder="Password" required minlength="6"
+          class="w-full px-4 py-3 pr-12 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+        <button type="button" onclick="togglePassword('password')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300">
+          <svg id="eye-icon-password" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </button>
+      </div>
+    
+      <div class="relative">
+        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Konfirmasi Password" required minlength="6"
+          class="w-full px-4 py-3 pr-12 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+        <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300">
+          <svg id="eye-icon-confirmPassword" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </button>
+      </div>
+    
+      <div class="flex items-center gap-4">
+        <span class="text-lg font-bold px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-xl select-none tracking-widest" id="captchaBox"></span>
+        <div class="relative w-full">
+          <input type="text" name="captchaInput" placeholder="Masukkan Captcha" required
+            class="w-full px-4 py-3 pr-12 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300" />
+          <button type="button" onclick="generateCaptcha()" title="Muat Ulang Captcha"
+            class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+            <span class="sr-only">Muat Ulang Captcha</span>
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0l3.18-3.182m-3.18-3.181l-3.182-3.182a8.25 8.25 0 00-11.664 0l-3.18 3.182" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    
+      <button type="submit"
+        class="w-full py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition duration-300 transform hover:-translate-y-0.5">
+        Daftar
+      </button>
+    
+      <div class="text-sm text-center text-gray-500 dark:text-gray-300">
+        Sudah punya akun? <a href="index.html" class="text-blue-600 hover:underline font-medium">Masuk di sini</a>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    // --- Definisikan fungsi di luar agar bisa diakses oleh 'onclick' ---
+    
+    // Fungsi untuk generate CAPTCHA
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let captcha = "";
+      for (let i = 0; i < 6; i++) {
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const captchaBox = document.getElementById('captchaBox');
+      if (captchaBox) {
+        captchaBox.textContent = captcha;
+      }
+    }
+
+    // Fungsi untuk toggle password visibility
+    function togglePassword(fieldId) {
+      const input = document.getElementById(fieldId);
+      const icon = document.getElementById(`eye-icon-${fieldId}`);
+      const eyeOpenIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+      const eyeClosedIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.964 9.964 0 012.091-3.368M4.271 4.271l15.458 15.458" />`;
+      
+      if (input.type === "password") {
+        input.type = "text";
+        icon.innerHTML = eyeClosedIcon;
+      } else {
+        input.type = "password";
+        icon.innerHTML = eyeOpenIcon;
+      }
+    }
+
+
+    // --- Event Listener Utama ---
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 1. Logika Dark Mode
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      if (themeToggleBtn) {
+        const applyTheme = () => {
+          if (localStorage.getItem('color-theme') === 'dark' || 
+             (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        };
+        applyTheme();
+        themeToggleBtn.addEventListener('click', () => {
+          document.documentElement.classList.toggle('dark');
+          localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+      }
+
+      // 2. Generate CAPTCHA saat halaman dimuat
+      generateCaptcha();
+
+      // 3. Logika Validasi Form
+      const registerForm = document.getElementById('registerForm');
+      if (registerForm) {
+        registerForm.addEventListener('submit', function(e) {
+          const form = this;
+          const pass = form.password.value;
+          const confirm = form.confirmPassword.value;
+          const captcha = document.getElementById('captchaBox').textContent.trim();
+          const inputCaptcha = form.captchaInput.value.trim();
+          const phone = form.phone.value;
+          const username = form.username.value;
+
+          // Validasi No. Telepon (hanya angka)
+          if (!/^\d+$/.test(phone)) {
+            e.preventDefault();
+            alert("Nomor telepon hanya boleh berisi angka.");
+            return;
+          }
+
+          // Validasi Username (hanya huruf kecil)
+          if (!/^[a-z0-9]+$/.test(username)) {
+            e.preventDefault();
+            alert("Username hanya boleh berisi huruf kecil dan angka, tanpa spasi atau karakter lain.");
+            return;
+          }
+
+          // Validasi Konfirmasi Password
+          if (pass !== confirm) {
+            e.preventDefault();
+            alert("Password dan konfirmasi tidak sama.");
+            return;
+          }
+
+          // Validasi CAPTCHA
+          if (inputCaptcha.toUpperCase() !== captcha.toUpperCase()) {
+            e.preventDefault();
+            alert("Kode Captcha salah.");
+            generateCaptcha();
+            return;
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

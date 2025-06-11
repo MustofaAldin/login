@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Aplikasi MyToko</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            lexend: ['Lexend Deca', 'sans-serif']
+          },
+          animation: {
+            'fade-in-scale': 'fadeInScale 0.5s ease-in-out',
+          },
+          keyframes: {
+            fadeInScale: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .lexend-deca-body {
+      font-family: "Lexend Deca", sans-serif;
+    }
+  </style>
+</head>
+<body class="lexend-deca-body bg-[#F5F7FA] dark:bg-gray-900 flex items-center justify-center min-h-screen transition-colors duration-300 relative p-4">
+
+  <div class="fixed top-4 right-4 z-50">
+    <button id="theme-toggle" type="button" class="relative flex items-center w-20 h-10 bg-gray-300 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 transition-colors duration-300">
+      <span class="sr-only">Toggle dark mode</span>
+      <span class="absolute left-1 inline-flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out dark:translate-x-10">
+          <svg class="h-5 w-5 text-yellow-500 transition-all duration-300 ease-in-out transform dark:-rotate-90 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="absolute h-5 w-5 text-slate-300 transition-all duration-300 ease-in-out transform rotate-90 opacity-0 dark:rotate-0 dark:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+      </span>
+    </button>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-sm animate-fade-in-scale">
+    <div class="flex items-center justify-center mb-4">
+      <svg class="w-8 h-8 mr-2" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="4" width="6" height="6" fill="#3361FF"/>
+        <rect x="14" y="4" width="6" height="6" fill="#FF6633"/>
+      </svg>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Aplikasi MyToko</h1>
+    </div>
+    <div class="text-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Halo🙌🏼, Selamat Datang!</h2>
+      <p class="text-gray-500 dark:text-gray-300 text-sm">Silahkan login untuk melanjutkan.</p>
+    </div>
+    <form id="loginForm" method="POST" action="login.php" class="space-y-4">
+      <div>
+        <input name="email" type="email" required placeholder="Masukkan Alamat Email"
+          class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300">
+      </div>
+      <div>
+        <input name="password" type="password" required minlength="6" placeholder="Masukkan Kata Sandi"
+          class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none transition-colors duration-300">
+      </div>
+      <div class="text-sm text-gray-500 dark:text-gray-300 text-left">
+        Belum Punya Akun? <a href="daftar.html" class="text-blue-600 hover:underline font-medium">Daftar Akun</a>
+      </div>
+      <div class="text-sm text-gray-500 dark:text-gray-300 text-left">
+        Lupa Kata Sandi? <a href="reset.html" class="text-blue-600 hover:underline font-medium">Reset Kata Sandi</a>
+      </div>
+      
+      <a href="utama.html"
+        class="block text-center w-full py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition duration-300 transform hover:-translate-y-0.5">
+        Masuk
+      </a>
+      </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Logika Dark Mode ---
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const applyTheme = () => {
+        if (localStorage.getItem('color-theme') === 'dark' || 
+           (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      };
+      applyTheme();
+      themeToggleBtn.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        if (document.documentElement.classList.contains('dark')) {
+          localStorage.setItem('color-theme', 'dark');
+        } else {
+          localStorage.setItem('color-theme', 'light');
+        }
+      });
+
+      // --- Logika Validasi Form (Tidak digunakan jika tombol adalah link, tapi biarkan saja) ---
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', function (e) {
+        // Logika ini tidak akan berjalan jika tombol "Masuk" adalah link <a>,
+        // tapi akan berguna jika Anda mengubahnya kembali menjadi <button type="submit">
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+        if (!email || password.length < 6) {
+          e.preventDefault();
+          alert("Email wajib diisi dan password minimal 6 karakter.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

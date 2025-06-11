@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kelola Barang | Aplikasi MyToko</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            lexend: ['Lexend Deca', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .lexend-deca-body {
+      font-family: "Lexend Deca", sans-serif;
+    }
+    .sidebar-mobile-open {
+        overflow: hidden;
+    }
+    .sidebar-mobile-open #sidebar {
+        transform: translateX(0);
+    }
+    .sidebar-mobile-open #sidebar-overlay {
+        display: block;
+    }
+    /* Transisi untuk pop-up notifikasi/pesan */
+    .popup {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    .popup-hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+    /* Transisi untuk modal */
+    .modal-container {
+        transition: opacity 0.3s ease-in-out;
+    }
+    .modal-content {
+        transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="lexend-deca-body bg-[#F5F7FA] dark:bg-gray-900 transition-colors duration-300">
+
+<div class="relative min-h-screen lg:flex">
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+
+  <aside id="sidebar" class="w-64 bg-white dark:bg-gray-800 shadow-md flex-shrink-0 fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out z-40">
+    <div class="flex flex-col h-full">
+        <div class="p-6">
+          <div class="flex items-center justify-center mb-10">
+            <svg class="w-8 h-8 mr-2" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" fill="#3361FF"/><rect x="14" y="4" width="6" height="6" fill="#FF6633"/></svg>
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">MyToko</h1>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="utama.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Dashboard</span></a></li>
+              <li class="mt-2"><a href="#" class="flex items-center px-4 py-3 text-blue-600 dark:text-white bg-blue-50 dark:bg-gray-700 rounded-lg font-semibold"><svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg><span>Kelola Barang</span></a></li>
+              <li class="mt-2"><a href="pengguna.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><span>Pengguna</span></a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="p-6 mt-auto"><a href="index.html" class="flex items-center px-4 py-3 text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg><span>Logout</span></a></div>
+    </div>
+  </aside>
+
+  <main class="flex-1">
+    <div class="p-4 md:p-8">
+      <header class="flex justify-between items-center mb-8">
+        <div class="flex items-center">
+            <button id="hamburger-button" class="lg:hidden mr-4 text-gray-600 dark:text-gray-300"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Kelola Barang</h1>
+              <p class="text-gray-500 dark:text-gray-300 text-sm mt-1">Atur semua data produk dan inventaris Anda.</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 flex-shrink-0">
+          <div class="relative">
+            <button id="messages-button" class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><span class="sr-only">Buka Pesan</span><svg class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span></button>
+          </div>
+          <div class="relative">
+            <button id="notifications-button" class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><span class="sr-only">Buka Notifikasi</span><svg class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg><span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span></button>
+          </div>
+          <button id="theme-toggle" type="button" class="relative flex items-center w-20 h-10 bg-gray-300 dark:bg-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"><span class="sr-only">Toggle dark mode</span><span class="absolute left-1 inline-flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300 dark:translate-x-10"><svg class="h-5 w-5 text-yellow-500 transition-all duration-300 transform dark:-rotate-90 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><svg class="absolute h-5 w-5 text-slate-300 transition-all duration-300 transform rotate-90 opacity-0 dark:rotate-0 dark:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg></span></button>
+          <div class="relative"><img src="profil.jpg" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer"></div>
+        </div>
+      </header>
+      
+      <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-2xl shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div class="relative w-full md:w-auto md:flex-grow"><div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg></div><input type="text" id="searchInput" placeholder="Cari barang..." class="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white outline-none"></div>
+            <button id="addItemButton" class="w-full md:w-auto py-2 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg><span>Tambah Barang</span></button>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr><th scope="col" class="px-6 py-3">Nama Barang</th><th scope="col" class="px-6 py-3">Kategori</th><th scope="col" class="px-6 py-3">Stok</th><th scope="col" class="px-6 py-3">Harga</th><th scope="col" class="px-6 py-3 text-center">Aksi</th></tr>
+            </thead>
+            <tbody id="itemTableBody" class="divide-y divide-gray-200 dark:divide-gray-600">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="messages-popup" class="popup popup-hidden fixed top-16 right-8 md:right-48 mt-2 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl z-50 border dark:border-gray-700">
+    <div class="p-4 border-b dark:border-gray-700">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Pesan Terbaru</h3>
+    </div>
+    <div class="divide-y dark:divide-gray-700 max-h-96 overflow-y-auto">
+        <a href="#" class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <div class="flex items-start space-x-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://i.pravatar.cc/40?u=siti" alt="Siti Sarah">
+              <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">Siti Sarah</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 truncate">Mohon info ketersediaan stok Laptop Pro 15".</p>
+              </div>
+          </div>
+        </a>
+    </div>
+    <a href="#" class="block py-2 text-sm font-medium text-center text-blue-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:text-blue-500 dark:hover:bg-gray-700 rounded-b-xl">
+        Lihat Semua Pesan
+    </a>
+</div>
+
+<div id="notifications-popup" class="popup popup-hidden fixed top-16 right-8 md:right-36 mt-2 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl z-50 border dark:border-gray-700">
+    <div class="p-4 border-b dark:border-gray-700">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Notifikasi</h3>
+    </div>
+    <div class="divide-y dark:divide-gray-700 max-h-96 overflow-y-auto">
+        <a href="#" class="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <div class="flex-shrink-0 mr-3">
+                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                    <svg class="w-5 h-5 text-yellow-500 dark:text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 5a1 1 0 011 1v3a1 1 0 01-2 0V6a1 1 0 011-1zm1 5a1 1 0 10-2 0v2a1 1 0 102 0v-2z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-gray-600 dark:text-gray-300 text-sm mb-1.5">Stok barang <span class="font-bold">Keyboard Mekanikal</span> di bawah batas minimum.</div>
+                <div class="text-xs text-blue-600 dark:text-blue-500">10 menit yang lalu</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div id="addItemModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none p-4">
+  <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-lg transform scale-95">
+    <div class="flex justify-between items-center p-6 border-b dark:border-gray-600">
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Tambah Barang Baru</h3>
+      <button type="button" class="close-modal text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg p-1.5 ml-auto inline-flex items-center">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    <form id="addItemForm" class="p-6 space-y-4">
+        <div><label for="item_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Barang</label><input type="text" id="item_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" required></div>
+        <div><label for="item_category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label><input type="text" id="item_category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" required></div>
+        <div><label for="item_stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok</label><input type="number" id="item_stock" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" required></div>
+        <div><label for="item_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label><input type="text" id="item_price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600" placeholder="Rp 1.000.000" required></div>
+      <div class="flex items-center justify-end space-x-4 pt-4">
+        <button type="button" class="close-modal px-5 py-2.5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Simpan Barang</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="editItemModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none p-4">
+    </div>
+
+<div id="deleteItemModal" class="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 pointer-events-none p-4">
+  <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-md transform scale-95">
+    <div class="p-6 text-center">
+        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus barang ini?</h3>
+        <button type="button" id="confirmDeleteButton" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">Ya, Hapus</button>
+        <button type="button" class="close-modal text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Batal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Dark Mode & Sidebar Logic (Konsisten) ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const applyTheme = () => { if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } else { document.documentElement.classList.remove('dark'); }};
+    applyTheme();
+    themeToggleBtn.addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); });
+    
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const body = document.body;
+    const toggleSidebar = () => { body.classList.toggle('sidebar-mobile-open'); };
+    hamburgerButton.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    // --- Modal & Popup Logic (Konsisten) ---
+    const modals = {
+        add: document.getElementById('addItemModal'),
+        edit: document.getElementById('editItemModal'),
+        delete: document.getElementById('deleteItemModal')
+    };
+
+    const openModal = (modal) => {
+        if (!modal) return;
+        const modalContent = modal.querySelector('.modal-content');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        if(modalContent) modalContent.classList.remove('scale-95');
+    };
+
+    const closeModal = (modal) => {
+        if (!modal) return;
+        const modalContent = modal.querySelector('.modal-content');
+        modal.classList.add('opacity-0');
+        if(modalContent) modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('pointer-events-none');
+        }, 300);
+    };
+    
+    document.querySelectorAll('.close-modal').forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.modal-container');
+            if(modal) closeModal(modal);
+        });
+    });
+
+    const messagesButton = document.getElementById('messages-button');
+    const notificationsButton = document.getElementById('notifications-button');
+    const messagesPopup = document.getElementById('messages-popup');
+    const notificationsPopup = document.getElementById('notifications-popup');
+
+    const togglePopup = (popup) => {
+        const isHidden = popup.classList.contains('popup-hidden');
+        messagesPopup.classList.add('popup-hidden');
+        notificationsPopup.classList.add('popup-hidden');
+        if (isHidden) {
+            popup.classList.remove('popup-hidden');
+        }
+    };
+    
+    messagesButton.addEventListener('click', (e) => { e.stopPropagation(); togglePopup(messagesPopup); });
+    notificationsButton.addEventListener('click', (e) => { e.stopPropagation(); togglePopup(notificationsPopup); });
+    window.addEventListener('click', () => {
+        messagesPopup.classList.add('popup-hidden');
+        notificationsPopup.classList.add('popup-hidden');
+    });
+
+    // === DATA & LOGIKA HALAMAN KELOLA BARANG ===
+    let itemData = [
+        { id: 1, name: 'Laptop Pro 15"', category: 'Elektronik', stock: 120, price: 'Rp 25.000.000' },
+        { id: 2, name: 'Keyboard Mekanikal', category: 'Aksesoris Komputer', stock: 350, price: 'Rp 1.200.000' },
+        { id: 3, name: 'Mouse Wireless', category: 'Aksesoris Komputer', stock: 500, price: 'Rp 350.000' },
+        { id: 4, name: 'Monitor 24 Inch', category: 'Elektronik', stock: 80, price: 'Rp 3.000.000' },
+        { id: 5, name: 'SSD 1TB NVMe', category: 'Komponen Komputer', stock: 200, price: 'Rp 1.500.000' }
+    ];
+
+    const tableBody = document.getElementById('itemTableBody');
+    const searchInput = document.getElementById('searchInput');
+
+    const renderTable = (data) => {
+        if(!tableBody) return;
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-gray-500">Data tidak ditemukan.</td></tr>`;
+            return;
+        }
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700/50';
+            row.dataset.itemId = item.id;
+            row.innerHTML = `
+                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">${item.name}</td>
+                <td class="px-6 py-4">${item.category}</td>
+                <td class="px-6 py-4">${item.stock}</td>
+                <td class="px-6 py-4">${item.price}</td>
+                <td class="px-6 py-4 text-center whitespace-nowrap">
+                    <button class="edit-btn font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4">Edit</button>
+                    <button class="delete-btn font-medium text-red-600 dark:text-red-500 hover:underline">Hapus</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    };
+
+    // Initial Render
+    renderTable(itemData);
+
+    // Live Search
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const filteredData = itemData.filter(item => 
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.category.toLowerCase().includes(searchTerm)
+        );
+        renderTable(filteredData);
+    });
+
+    // Add Item Logic
+    document.getElementById('addItemButton').addEventListener('click', () => {
+        openModal(modals.add);
+    });
+
+    document.getElementById('addItemForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newItem = {
+            id: Date.now(), // Unique ID
+            name: document.getElementById('item_name').value,
+            category: document.getElementById('item_category').value,
+            stock: parseInt(document.getElementById('item_stock').value),
+            price: document.getElementById('item_price').value
+        };
+        itemData.unshift(newItem); // Add to the top
+        renderTable(itemData);
+        closeModal(modals.add);
+        e.target.reset(); // Clear form
+    });
+
+    // Edit and Delete Logic (Event Delegation)
+    tableBody.addEventListener('click', (e) => {
+        const target = e.target;
+        const row = target.closest('tr');
+        if (!row) return;
+        
+        const itemId = parseInt(row.dataset.itemId);
+        const item = itemData.find(d => d.id === itemId);
+
+        if (target.classList.contains('edit-btn')) {
+            modals.edit.innerHTML = `
+                <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-lg transform scale-95">
+                    <div class="flex justify-between items-center p-6 border-b dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Barang</h3>
+                        <button type="button" class="close-modal text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg p-1.5 ml-auto"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg></button>
+                    </div>
+                    <form id="editItemForm" class="p-6 space-y-4" data-edit-id="${itemId}">
+                        <div><label class="block mb-2 text-sm">Nama Barang</label><input type="text" name="name" value="${item.name}" class="bg-gray-50 border w-full p-2.5 rounded-lg dark:bg-gray-700 dark:border-gray-600"></div>
+                        <div><label class="block mb-2 text-sm">Kategori</label><input type="text" name="category" value="${item.category}" class="bg-gray-50 border w-full p-2.5 rounded-lg dark:bg-gray-700 dark:border-gray-600"></div>
+                        <div><label class="block mb-2 text-sm">Stok</label><input type="number" name="stock" value="${item.stock}" class="bg-gray-50 border w-full p-2.5 rounded-lg dark:bg-gray-700 dark:border-gray-600"></div>
+                        <div><label class="block mb-2 text-sm">Harga</label><input type="text" name="price" value="${item.price}" class="bg-gray-50 border w-full p-2.5 rounded-lg dark:bg-gray-700 dark:border-gray-600"></div>
+                        <div class="flex justify-end space-x-4 pt-4">
+                            <button type="button" class="close-modal px-5 py-2.5 rounded-lg border">Batal</button>
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg px-5 py-2.5">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            modals.edit.querySelector('.close-modal').addEventListener('click', () => closeModal(modals.edit));
+            modals.edit.querySelector('#editItemForm').addEventListener('submit', handleEditSubmit);
+            openModal(modals.edit);
+        }
+
+        if (target.classList.contains('delete-btn')) {
+            openModal(modals.delete);
+            const confirmButton = document.getElementById('confirmDeleteButton');
+            confirmButton.onclick = () => {
+                itemData = itemData.filter(d => d.id !== itemId);
+                renderTable(itemData);
+                closeModal(modals.delete);
+            };
+        }
+    });
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const itemId = parseInt(form.dataset.editId);
+        const itemIndex = itemData.findIndex(d => d.id === itemId);
+        
+        if (itemIndex > -1) {
+            itemData[itemIndex] = {
+                id: itemId,
+                name: form.elements.name.value,
+                category: form.elements.category.value,
+                stock: parseInt(form.elements.stock.value),
+                price: form.elements.price.value
+            };
+        }
+        
+        renderTable(itemData);
+        closeModal(modals.edit);
+    };
+});
+</script>
+</body>
+</html>
